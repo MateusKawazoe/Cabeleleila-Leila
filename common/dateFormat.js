@@ -1,16 +1,23 @@
 exports.formatarData = function (data) {
     var date = new Date(data)
-    var year = date.getFullYear()
-    var day = date.getDate()
-    var mounth = date.getMonth()
-
-    if (day < 10) {
-        day = '0' + day
+    var fullDate = {
+        year: date.getFullYear(),
+        day: date.getDate(),
+        mounth = date.getMonth(),
+        hour = date.getHours(),
+        minute = date.getMinutes()
     }
 
-    if (mounth < 10) {
-        mounth = '0' + (mounth + 1)
+    if (fullDate.day < 10) {
+        fullDate.day = '0' + fullDate.day
     }
 
-    return day + '/' + mounth + '/' + year
+    if (fullDatemounth < 10) {
+        fullDatemounth = '0' + (fullDatemounth + 1)
+    }
+
+    return {
+        date: fullDate.day + '/' + fullDate.mounth + '/' + fullDate.year,
+        hour: fullDate.hour + ':' + fullDate.minute
+    }
 }

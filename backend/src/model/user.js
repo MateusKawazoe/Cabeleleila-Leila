@@ -1,6 +1,6 @@
-const { Schema, model } = require('mongoose')
+const schema = require('../common/modelInterface/index')
 
-const userSchema = new Schema({
+module.exports = schema.createSchema({
     username: {
         type: String,
         required: true
@@ -24,9 +24,6 @@ const userSchema = new Schema({
     birth: {
         type: Date,
         required: true
-    }
-}, {
-    timestamps: true
-})
-
-module.exports = model('user',userSchema)
+    },
+    admin: Number,
+}, 'user')
