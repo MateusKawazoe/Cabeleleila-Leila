@@ -1,6 +1,6 @@
 const schema = require('../common/modelInterface/index')
 
-module.exports = schema.createSchema({
+module.exports = schema({
     username: {
         type: String,
         required: true
@@ -23,6 +23,10 @@ module.exports = schema.createSchema({
     },
     birth: {
         type: Date,
+        required: true
+    },
+    token: {
+        type: String,
         required: true
     },
     admin: Number,

@@ -3,22 +3,22 @@ const schema = require('../common/modelInterface/index')
 module.exports = schema.createSchema({
     client: {
         type: Object,
-        require: true
+        required: true
     },
     day: {
         type: data,
-        require: true
+        required: true
     },
     hour: {
         type: date,
-        require: true
+        required: true
     },
     service: {
         type: Object,
-        require: true
+        required: true
     },
     clerk: {
         type: Object,
-        require: true
+        required: true
     },
 }, 'schedule')
