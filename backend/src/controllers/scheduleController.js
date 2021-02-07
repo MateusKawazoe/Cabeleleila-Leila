@@ -1,5 +1,6 @@
 const schedule = require('../models/schedule')
 const interface = require('../common/controllerInterface/index')
+const checkWeek = require('../common/checkweek/index')
 
 module.exports = {
     async store(req, res) {
@@ -12,6 +13,8 @@ module.exports = {
 
         if (!service)
             return res.json(401)
+        else if (date < new Date())
+            return res.json(402)
 
         const response = await interface.store({
             client: client,
@@ -24,7 +27,7 @@ module.exports = {
             date: date
         })
 
-        if (response) {
+        if (response != 400) {
             const insertServices = await interface.updateArray({
                 $push: {
                     service: {
@@ -101,5 +104,31 @@ module.exports = {
             date: req.body.date
         })
         return res.json(response)
+    },
+
+    async sameWeek(req, res) {
+        const {
+            client,
+            date
+        } = req.body
+
+        const sameWeek = await interface.showAll(schedule, {
+            client: client,
+            status: 1
+        })
+
+        if (sameWeek[0]) {
+            for (const element of sameWeek) {
+                if (await checkWeek(element.date, date)) {
+                    return res.json({
+                        client: element.client,
+                        date: date,
+                        code: 200
+                    })
+                }
+            }
+        }
+        
+        return res.json(400)
     }
 }

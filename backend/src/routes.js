@@ -22,6 +22,7 @@ routes.put('/schedule/update', scheduleController.update)
 routes.get('/schedule/showAll', scheduleController.showAll)
 routes.post('/schedule/showOne', scheduleController.showOne)
 routes.delete('/schedule/delete', scheduleController.delete)
+routes.post('/schedule/sameWeek', scheduleController.sameWeek)
 
 // --Schedule routes
 

@@ -35,14 +35,18 @@ module.exports = {
             return 400
     },
 
-    async showAll(model) {
-        const sucess = await model.find()
+    async showAll(model, filter) {
+        var sucess
+        
+        if(!filter)
+            sucess = await model.find()
+        else
+            sucess = await model.find(filter)
 
         if (!sucess[0])
             return 400
 
         return (sucess)
-
     },
 
     async showOne(model, filter) {
