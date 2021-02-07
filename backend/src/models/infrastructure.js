@@ -1,12 +1,10 @@
 const schema = require('../common/modelInterface/index')
 
-module.exports = schema.createSchema({
-    service: {
+module.exports = schema({
+    id: {
         type: String,
         required: true
     },
-    clerk: {
-        type: String,
-        required: true
-    }
+    service: [],
+    clerk: []
 }, 'infrastructure')

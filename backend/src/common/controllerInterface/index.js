@@ -1,51 +1,69 @@
 module.exports = {
-    async store(data, model, type, filter) {
-        const userExists = await model.findOne(filter)
-        const CPFExists = await model.findOne({
-            CPF: data.CPF
-        })
+    async store(data, model, filter) {
+        const exists = await model.findOne(filter)
 
-        if (userExists || CPFExists)
-            return type + ' já cadastrado!'
+        if (exists)
+            return 400
 
         const sucess = await model.create(data)
-        
+
         if (sucess)
-            return type + ' criado com sucesso!'
+            return 200
         else
-            return 'Algo deu errado, verifique os campos!'
+            return 401
     },
 
-    async update(data, model, type, filter) {
-        const sucess = await model.updateOne({
-            filter
-        }, data)
+    async update(data, model, filter) {
+        const sucess = await model.findOne(filter)
+        console.log(filter)
+        if (sucess) {
+            await model.updateOne(filter, {
+                $set: data
+            })
+            return 200
+        } else
+            return 400
+    },
 
-        if (sucess)
-            return type + ' atualizado com sucesso!'
-        else
-            return 'Algo deu errado, verifique os campos!'
+    async updateArray(data, model, filter) {
+        const sucess = await model.findOne(filter)
+
+        if(sucess) {
+            await model.updateOne(filter, data)
+            return 200
+        } else 
+            return 400
     },
 
     async showAll(model) {
         const sucess = await model.find()
 
-        if(!sucess[0])
-            return 'Algo deu errado, verifique se existem dados cadastrados'
-        
+        if (!sucess[0])
+            return 400
+
         return (sucess)
-            
+
     },
 
-    async delete(model, type, filter) {
+    async showOne(model, filter) {
         const sucess = await model.findOne(filter)
-        
+
+        if (!sucess) {
+            return 400
+        }
+
+        return sucess
+    },
+
+    async delete(model, filter) {
+        const sucess = await model.findOne(filter)
+
         if (sucess) {
             await model.deleteOne(filter)
 
-            return type + ' excluído com sucesso!'
+            return 200
         } else {
-            return type + ' não existe!'
+            return 400
         }
     }
 }

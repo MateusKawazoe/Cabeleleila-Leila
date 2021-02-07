@@ -2,6 +2,7 @@ const user = require('../models/user')
 const auth_token = require('../services/auth')
 const md5 = require("md5")
 const interface = require('../common/controllerInterface/index')
+const validarCPF = require('../../../common/validator')
 
 module.exports = {
     async store(req, res) {
@@ -14,6 +15,17 @@ module.exports = {
             birth,
             admin
         } = req.body
+
+        if (!validarCPF(CPF))
+            return res.json(402)
+
+        const CPFExists = await interface.showOne(user, {
+            CPF: CPF
+        })
+
+        if (CPFExists)
+            return res.json(403)
+
         let adm = 0
 
         if (admin)
@@ -33,9 +45,10 @@ module.exports = {
             birth: birth,
             token: token,
             admin: adm
-        }, user, 'Usuário', {
+        }, user, {
             username: username
         })
+
         return res.json(response)
     },
 
@@ -46,13 +59,11 @@ module.exports = {
             phone,
         } = req.body
 
-        var aux
+        var response
 
-        if (password) {
-            aux = await update({
-                $set: {
-                    phone: phone
-                }
+        if (!password) {
+            response = await update(username, {
+                phone: phone
             })
         } else {
             const token = await auth_token.generateToken({
@@ -60,15 +71,14 @@ module.exports = {
                 password
             })
 
-            aux = await update({
-                $set: {
-                    password: md5(password + global.SALT_KEY),
-                    token: token,
-                    phone: phone
-                }
+            response = await update(username, {
+                password: md5(password + global.SALT_KEY),
+                token: token,
+                phone: phone
             })
         }
-        return res.json(aux)
+
+        return res.json(response)
     },
 
     async showAll(req, res) {
@@ -76,14 +86,24 @@ module.exports = {
         return res.json(response)
     },
 
+    async showOne(req, res) {
+        const response = await interface.showOne(user, {
+            username: req.body.username
+        })
+        return res.json(response)
+    },
+
     async delete(req, res) {
-        const response = await interface.delete(user, 'Usuário', { username: req.body.username })
+        const response = await interface.delete(user, {
+            username: req.body.username
+        })
         return res.json(response)
     }
 }
 
-function update(data) {
-    return interface.update(data, user, 'Usuário', {
+function update(username, data) {
+    const response = interface.update(data, user, {
         username: username
     })
+    return response
 }
