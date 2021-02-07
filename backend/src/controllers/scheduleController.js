@@ -10,17 +10,35 @@ module.exports = {
             clerk
         } = req.body
 
+        if (!service)
+            return res.json(401)
+
         const response = await interface.store({
             client: client,
             date: new Date(date),
-            service: service,
             clerk: clerk,
+            service: [],
             status: 1
         }, schedule, {
             client: client,
             date: date
         })
-        return res.json(response)
+
+        if (response) {
+            const insertServices = await interface.updateArray({
+                $push: {
+                    service: {
+                        $each: service
+                    }
+                }
+            }, schedule, {
+                client: client,
+                date: date
+            })
+
+            return res.json(insertServices)
+        } else
+            return res.json(response)
     },
 
     async update(req, res) {
@@ -46,7 +64,7 @@ module.exports = {
 
         if (newData.client) {
             aux.client = newData.client
-        }else if (newData.date) {
+        } else if (newData.date) {
             aux.date = newData.date
         }
 

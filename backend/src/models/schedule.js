@@ -9,10 +9,7 @@ module.exports = schema({
         type: Date,
         required: true
     },
-    service: {
-        type: Object,
-        required: true
-    },
+    service: [],
     clerk: {
         type: Object,
         required: true

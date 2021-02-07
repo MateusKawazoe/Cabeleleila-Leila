@@ -8,14 +8,14 @@ module.exports = {
         const sucess = await model.create(data)
 
         if (sucess)
-            return 200
+            return sucess
         else
             return 401
     },
 
     async update(data, model, filter) {
         const sucess = await model.findOne(filter)
-        console.log(filter)
+
         if (sucess) {
             await model.updateOne(filter, {
                 $set: data
