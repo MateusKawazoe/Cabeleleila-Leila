@@ -19,6 +19,12 @@ Como o MongoDB utiliza o próprio servidor online, o database desta aplicação 
 
 1 - Devido ao prazo e a falta de experiência o projeto necessita de otimização na questão dos requisitos não-funcionais (renderização e chamada dos estados);
 
-2 - O componente principal de agendamento foi desenvolvido do 0 apenas com o bootstrap do React.
+2 - O componente principal de agendamento foi desenvolvido do 0 apenas com o bootstrap do React;
+
+3 - Existem pequenos erros de layouts e manipulação dos dados que eu tenho noção de como contornar, contudo levei este desenvolvimento na ideia de uma métodologia ágil com foco na entrega;
+
+4 - Existem algumas funcionalidades comentadas, visto que inicialmente o plano era poder inserir diversos serviçços a um mesmo agendamento;
+
+5 - Todos os testes do backend foram realizadas com o Insomnia.
 
 
