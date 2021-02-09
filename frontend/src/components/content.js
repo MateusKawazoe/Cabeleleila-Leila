@@ -56,7 +56,7 @@ export default function Content() {
             $('.login').css('display', 'flex')
         
             if(signup) {
-                $('.login').css('height', '500px')
+                $('.login').css('height', '600px')
             } else {
                 $('.login').css('height', '300px')
             }

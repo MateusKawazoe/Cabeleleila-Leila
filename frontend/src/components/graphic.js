@@ -40,7 +40,7 @@ export default function Graphic() {
         <div className="graphic">
             <div className="legenda">
                 <form>
-                    <h1>Legenda</h1>
+                    <h1 className="title">Legenda</h1>
                     <p className="first">Agendamentos</p>
                     <p>Solicidatos: {agendado}</p>
                     <p>Confirmados: {confirmado}</p>
