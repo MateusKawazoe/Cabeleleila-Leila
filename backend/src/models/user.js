@@ -21,10 +21,6 @@ module.exports = schema({
         type: String,
         required: true
     },
-    birth: {
-        type: Date,
-        required: true
-    },
     token: {
         type: String,
         required: true

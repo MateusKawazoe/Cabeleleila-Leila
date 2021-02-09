@@ -1,8 +1,5 @@
 const infrastructure = require('../models/infrastructure')
 const interface = require('../common/controllerInterface/index')
-const {
-    type
-} = require('os')
 
 module.exports = {
     async storeService(req, res) {

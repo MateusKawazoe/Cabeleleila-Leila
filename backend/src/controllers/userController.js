@@ -2,17 +2,67 @@ const user = require('../models/user')
 const auth_token = require('../services/auth')
 const md5 = require("md5")
 const interface = require('../common/controllerInterface/index')
-const validarCPF = require('../../../common/validator')
+const validarCPF = require('../common/validator')
 
 module.exports = {
+    async login(req, res) {
+        const {
+            username,
+            password,
+            token
+        } = req.body
+
+        const userExists = await interface.showOne(user, {
+            username
+        })
+
+        if (userExists == 400) {
+            return res.json(400)
+        }
+
+        if (userExists.token) {
+            if (userExists.token == token) {
+                return res.json(token)
+            } else {
+                if (userExists.password == md5(password + global.SALT_KEY)) {
+                    var auxToken
+
+                    if (token) {
+                        auxToken = token
+                    } else {
+                        auxToken = await auth_token.generateToken({
+                            username: userExists.username,
+                            password: md5(userExists.password + global.SALT_KEY)
+                        })
+                    }
+
+                    await interface.update({
+                        $set: {
+                            token: auxToken
+                        }
+                    }, user, {
+                        username
+                    })
+
+                    const aux = await interface.showOne(user, {
+                        username
+                    })
+
+                    return res.json(aux)
+                } else {
+                    return res.json(401)
+                }
+            }
+        }
+    },
+
     async store(req, res) {
         const {
             username,
             password,
             fullname,
-            CPF,
             phone,
-            birth,
+            CPF,
             admin
         } = req.body
 
@@ -23,7 +73,7 @@ module.exports = {
             CPF: CPF
         })
 
-        if (CPFExists)
+        if (CPFExists != 400)
             return res.json(403)
 
         let adm = 0
@@ -42,7 +92,6 @@ module.exports = {
             fullname: fullname,
             CPF: CPF,
             phone: phone,
-            birth: birth,
             token: token,
             admin: adm
         }, user, {

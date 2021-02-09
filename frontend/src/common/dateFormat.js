@@ -21,3 +21,17 @@ exports.formatarData = function (data) {
         hour: fullDate.hour + ':' + fullDate.minute
     }
 }
+
+exports.formatarDia = function (dia) {
+    if(dia < 10) 
+        return '0' + dia
+    
+        return dia
+}
+
+exports.formatarMes = function (mes) {
+    if(mes < 10) 
+        return '0' + mes
+    
+        return mes
+}

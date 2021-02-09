@@ -1,0 +1,31 @@
+.home {
+    display: flex;
+    align-items: center;
+}
+
+.home_img {
+    width: 100%;
+    max-width: 270px;
+    margin: 0;
+}
+
+.home>ul {
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.home>ul>h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 650%;
+}
+
+.home>ul>p {
+    margin: 0;
+    padding: 0;
+    font-size: 240%;
+    align-self: flex-end;
+    text-transform: uppercase;
+    color: rgb(255, 62, 62);
+}

@@ -20,7 +20,7 @@ module.exports = {
             await model.updateOne(filter, {
                 $set: data
             })
-            return 200
+            return data
         } else
             return 400
     },
@@ -35,18 +35,35 @@ module.exports = {
             return 400
     },
 
-    async showAll(model, filter) {
-        var sucess
+    async showAll(model, filter, order) {
+        var sucess = await model.find()
         
-        if(!filter)
-            sucess = await model.find()
-        else
-            sucess = await model.find(filter)
-
-        if (!sucess[0])
-            return 400
-
-        return (sucess)
+        if(!filter) {
+            if(order) {
+                sucess = await model.find().sort(order)
+                if (!sucess[0])
+                     return 400 
+                return (sucess)
+            } else {
+                sucess = await model.find()
+                if (!sucess[0])
+                     return 400 
+                return (sucess)
+            }
+        }
+        else {
+            if(order) {
+                sucess = await model.find(filter).sort(order)
+                if (!sucess[0])
+                     return 400 
+                return (sucess)
+            } else {
+                sucess = await model.find(filter)
+                if (!sucess[0])
+                     return 400 
+                return (sucess)
+            }
+        }
     },
 
     async showOne(model, filter) {

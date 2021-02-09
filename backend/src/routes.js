@@ -7,6 +7,7 @@ const routes = express.Router();
 // User routes--
 
 // routes.post('/user/signin', userController.signin)
+routes.post('/user/login', userController.login)
 routes.post('/user/store', userController.store)
 routes.put('/user/update', userController.update)
 routes.get('/user/showAll', userController.showAll)
@@ -19,7 +20,7 @@ routes.delete('/user/delete', userController.delete)
 
 routes.post('/schedule/store', scheduleController.store)
 routes.put('/schedule/update', scheduleController.update)
-routes.get('/schedule/showAll', scheduleController.showAll)
+routes.post('/schedule/showAll', scheduleController.showAll)
 routes.post('/schedule/showOne', scheduleController.showOne)
 routes.delete('/schedule/delete', scheduleController.delete)
 routes.post('/schedule/sameWeek', scheduleController.sameWeek)
